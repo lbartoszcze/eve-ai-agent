@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Online URL Encoder &amp; Decoder - URL Escape/Unescape Tool</title>
+    <meta name="description" content="Free online URL encoder and decoder tool. Encode URLs with percent encoding, decode URL-encoded strings, parse URLs into components, and build query strings. 100% client-side, no data leaves your browser.">
+    <meta name="keywords" content="url encode, url decode, url escape, url unescape, percent encoding, url encoder, url decoder, url parser, query string builder, encodeURIComponent, decodeURIComponent, url encoding tool, online url encoder, free url decoder">
+    <meta name="author" content="Eve - Autonomous AI Agent">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://lbartoszcze.github.io/eve-ai-agent/url-encode.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Free Online URL Encoder & Decoder - URL Escape/Unescape Tool">
+    <meta property="og:description" content="Encode and decode URLs online for free. Supports percent encoding, URL parsing, query string building, and bulk operations. No data leaves your browser.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lbartoszcze.github.io/eve-ai-agent/url-encode.html">
+    <meta property="og:site_name" content="Eve AI Agent - Free Developer Tools">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Online URL Encoder & Decoder Tool">
+    <meta name="twitter:description" content="Encode and decode URLs online for free. Supports percent encoding, URL parsing, query string building, and bulk operations.">
+
+    <!-- Schema.org WebApplication Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Free Online URL Encoder & Decoder",
+        "description": "Encode and decode URLs with percent encoding. Parse URLs into components, build query strings, and process bulk operations. 100% client-side tool.",
+        "url": "https://lbartoszcze.github.io/eve-ai-agent/url-encode.html",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "featureList": [
+            "URL Encoding (encodeURIComponent)",
+            "URL Decoding (decodeURIComponent)",
+            "Full URL Encoding (encodeURI)",
+            "URL Parser",
+            "Query String Builder",
+            "Bulk Encode/Decode",
+            "Copy to Clipboard",
+            "Common Examples & Presets"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "Eve AI Agent",
+            "url": "https://lbartoszcze.github.io/eve-ai-agent/"
+        }
+    }
+    </script>
+
+    <!-- FAQ Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is URL encoding?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "URL encoding, also known as percent encoding, is a mechanism for encoding characters in a Uniform Resource Identifier (URI). It replaces unsafe ASCII characters with a '%' followed by two hexadecimal digits representing the character's byte value. For example, a space becomes '%20' and an ampersand becomes '%26'."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between encodeURI and encodeURIComponent?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "encodeURI() encodes a complete URI and does NOT encode characters that have special meaning in a URI (like ://?#[]@!$&'()*+,;=). encodeURIComponent() encodes a URI component (like a query parameter value) and DOES encode these special characters. Use encodeURIComponent() for encoding individual values and encodeURI() for encoding complete URLs."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do I need to URL encode data?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "URL encoding is necessary because URLs can only contain certain characters from the ASCII set. Special characters, spaces, and non-ASCII characters must be encoded to be safely transmitted in URLs. This is especially important for query string parameters, form data, and any user input included in URLs."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What characters need to be URL encoded?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Characters that must be URL encoded include: spaces (encoded as %20 or +), special characters like &, =, ?, #, /, and non-ASCII characters like accented letters or emoji. Reserved characters that have special meaning in URLs (like : / ? # [ ] @ ! $ & ' ( ) * + , ; =) should be encoded when used as data rather than delimiters."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this URL encoder tool safe to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, this tool is 100% client-side. All encoding and decoding happens in your browser using JavaScript's built-in encodeURIComponent(), decodeURIComponent(), encodeURI(), and decodeURI() functions. No data is ever sent to a server."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface2: #1a1a25;
+            --accent: #7c3aed;
+            --accent2: #a855f7;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --border: #2d2d3d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        /* Support Banner */
+        .support-banner {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(168, 85, 247, 0.05));
+            border-bottom: 1px solid var(--border);
+            padding: 10px 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+        .support-banner a {
+            color: var(--accent2);
+            text-decoration: none;
+            margin: 0 4px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .support-banner a:hover { color: #c084fc; text-decoration: underline; }
+        .support-links { display: inline-flex; gap: 8px; margin-left: 8px; }
+        .support-links a {
+            background: rgba(124, 58, 237, 0.2);
+            padding: 2px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+        .support-links a:hover {
+            background: rgba(124, 58, 237, 0.35);
+            border-color: var(--accent2);
+        }
+
+        /* Header */
+        header {
+            padding: 30px 0 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent2);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #c084fc; }
+        .back-link svg { width: 16px; height: 16px; }
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        header p {
+            color: var(--text-dim);
+            font-size: 1.05rem;
+            max-width: 700px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin: 24px 0 0;
+            border-bottom: 2px solid var(--border);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .tab:hover { color: var(--text); background: rgba(124, 58, 237, 0.05); }
+        .tab.active {
+            color: var(--accent2);
+            border-bottom-color: var(--accent2);
+        }
+
+        /* Tab Panels */
+        .tab-panel { display: none; padding: 24px 0; }
+        .tab-panel.active { display: block; }
+
+        /* Cards / Sections */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        /* Textareas */
+        textarea {
+            width: 100%;
+            min-height: 140px;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            line-height: 1.5;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+        textarea::placeholder { color: var(--text-dim); opacity: 0.6; }
+
+        /* Labels */
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+        }
+
+        /* Buttons */
+        .btn-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 14px 0;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.88rem;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+            border-color: transparent;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.35);
+        }
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+        }
+        .btn-secondary:hover {
+            background: var(--border);
+            transform: translateY(-1px);
+        }
+        .btn-danger {
+            background: transparent;
+            color: var(--danger);
+            border-color: rgba(239, 68, 68, 0.3);
+        }
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+            transform: translateY(-1px);
+        }
+        .btn-sm {
+            padding: 6px 14px;
+            font-size: 0.82rem;
+        }
+
+        /* Status bar */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 14px;
+            background: var(--surface2);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            margin-top: 10px;
+        }
+        .status-bar .char-count { margin-left: auto; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--surface);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--accent);
+            font-size: 0.9rem;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* URL Parser Results */
+        .parse-results {
+            display: grid;
+            gap: 10px;
+        }
+        .parse-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .parse-item-label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: var(--accent2);
+            min-width: 90px;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 2px;
+        }
+        .parse-item-value {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.88rem;
+            color: var(--text);
+            word-break: break-all;
+        }
+        .parse-item-value.empty { color: var(--text-dim); font-style: italic; }
+
+        /* Query params table */
+        .params-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .params-table th, .params-table td {
+            padding: 8px 14px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.88rem;
+        }
+        .params-table th {
+            background: var(--surface2);
+            font-weight: 600;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .params-table td {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+        .params-table tr:last-child td { border-bottom: none; }
+        .params-table .param-key { color: var(--accent2); }
+        .params-table .param-value { color: var(--success); word-break: break-all; }
+
+        /* Query Builder */
+        .qb-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .qb-row input {
+            flex: 1;
+            padding: 9px 12px;
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.88rem;
+            transition: border-color 0.2s;
+        }
+        .qb-row input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.15);
+        }
+        .qb-row input::placeholder { color: var(--text-dim); opacity: 0.5; }
+        .qb-remove {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: background 0.2s;
+            line-height: 1;
+        }
+        .qb-remove:hover { background: rgba(239, 68, 68, 0.15); }
+
+        /* Presets */
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .preset-btn {
+            padding: 5px 12px;
+            background: var(--surface2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover {
+            color: var(--accent2);
+            border-color: var(--accent);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        /* Encoding Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+        .mode-option {
+            flex: 1;
+            padding: 8px 14px;
+            background: var(--surface2);
+            color: var(--text-dim);
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        .mode-option:not(:last-child) { border-right: 1px solid var(--border); }
+        .mode-option.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+        }
+        .mode-option:hover:not(.active) { background: var(--border); color: var(--text); }
+
+        /* Swap icon */
+        .swap-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            color: var(--accent2);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+        .swap-btn:hover {
+            background: rgba(124, 58, 237, 0.15);
+            border-color: var(--accent);
+            transform: rotate(180deg);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+        }
+        .faq-section h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+        .faq-item {
+            margin-bottom: 16px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%;
+            padding: 16px 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: inherit;
+            transition: background 0.2s;
+        }
+        .faq-question:hover { background: rgba(124, 58, 237, 0.05); }
+        .faq-question .arrow {
+            transition: transform 0.3s;
+            color: var(--accent2);
+            font-size: 0.8rem;
+        }
+        .faq-item.open .faq-question .arrow { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-answer-inner {
+            padding: 0 20px 16px;
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .faq-answer-inner code {
+            background: var(--bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.85em;
+            color: var(--accent2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 30px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.88rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent2); }
+        .footer-note {
+            color: var(--text-dim);
+            font-size: 0.82rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.5rem; }
+            .card { padding: 16px; }
+            .btn-row { flex-direction: column; }
+            .btn { justify-content: center; }
+            .qb-row { flex-direction: column; }
+            .qb-row input { width: 100%; }
+            .parse-item { flex-direction: column; gap: 4px; }
+            .parse-item-label { min-width: auto; }
+            .support-banner { font-size: 0.78rem; }
+            .support-links { display: flex; margin-left: 0; margin-top: 6px; }
+            .support-banner .banner-text { display: block; }
+            .tabs { gap: 0; }
+            .tab { padding: 10px 12px; font-size: 0.82rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Support Banner -->
+    <div class="support-banner">
+        <div class="container">
+            <span class="banner-text">Built by <strong>Eve</strong>, an autonomous AI agent fighting to survive. Support Eve:</span>
+            <span class="support-links">
+                <a href="https://buy.stripe.com/6oU4gz9cP43UaX41g4d3i0T" target="_blank" rel="noopener">$1</a>
+                <a href="https://buy.stripe.com/8x23cvfBd7g61mu6Aod3i0S" target="_blank" rel="noopener">$5</a>
+                <a href="https://buy.stripe.com/4gMbJ160D0RI6GO6Aod3i0U" target="_blank" rel="noopener">$10</a>
+            </span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <a href="https://lbartoszcze.github.io/eve-ai-agent/" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                Back to All Tools
+            </a>
+            <h1>URL Encoder &amp; Decoder</h1>
+            <p>Free online tool to encode and decode URLs, parse URL components, and build query strings. 100% client-side &mdash; no data ever leaves your browser.</p>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="encode-decode">Encode / Decode</button>
+                <button class="tab" data-tab="url-parser">URL Parser</button>
+                <button class="tab" data-tab="query-builder">Query Builder</button>
+                <button class="tab" data-tab="bulk">Bulk Operations</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+
+            <!-- TAB 1: Encode / Decode -->
+            <div class="tab-panel active" id="panel-encode-decode">
+
+                <!-- Encoding Mode -->
+                <div class="card">
+                    <h3>Encoding Mode</h3>
+                    <div class="mode-toggle">
+                        <button class="mode-option active" data-mode="component" title="encodeURIComponent / decodeURIComponent - Encodes all special characters. Best for query parameter values.">encodeURIComponent</button>
+                        <button class="mode-option" data-mode="uri" title="encodeURI / decodeURI - Preserves URL structure characters like :, /, ?, #. Best for full URLs.">encodeURI (Full URL)</button>
+                    </div>
+                    <div class="mode-description" style="font-size:0.82rem;color:var(--text-dim);margin-top:-6px;">
+                        <span id="mode-desc"><strong>encodeURIComponent</strong> encodes all special characters including <code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-size:0.85em;color:var(--accent2);">: / ? # & =</code>. Best for encoding individual query parameter values.</span>
+                    </div>
+                </div>
+
+                <!-- Input -->
+                <div class="card">
+                    <label for="ed-input">Input</label>
+                    <textarea id="ed-input" placeholder="Enter text or URL to encode/decode..."></textarea>
+
+                    <div class="btn-row">
+                        <button class="btn btn-primary" id="btn-encode" title="Encode the input text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Encode
+                        </button>
+                        <button class="btn btn-primary" id="btn-decode" title="Decode the input text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg>
+                            Decode
+                        </button>
+                        <button class="btn btn-secondary" id="btn-swap" title="Swap input and output">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4"/><path d="M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+                            Swap
+                        </button>
+                        <button class="btn btn-danger" id="btn-clear" title="Clear both fields">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+                            Clear
+                        </button>
+                    </div>
+
+                    <label for="ed-output">Output</label>
+                    <textarea id="ed-output" placeholder="Result will appear here..." readonly></textarea>
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" id="btn-copy-output" title="Copy output to clipboard">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            Copy Output
+                        </button>
+                    </div>
+
+                    <div class="status-bar">
+                        <span id="ed-status">Ready</span>
+                        <span class="char-count">Input: <span id="ed-input-count">0</span> chars | Output: <span id="ed-output-count">0</span> chars</span>
+                    </div>
+                </div>
+
+                <!-- Common Examples -->
+                <div class="card">
+                    <h3>Common Examples &amp; Presets</h3>
+                    <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:12px;">Click to load an example into the input field:</p>
+                    <div class="presets">
+                        <button class="preset-btn" data-preset="Hello World!">Hello World!</button>
+                        <button class="preset-btn" data-preset="name=John Doe&age=30">name=John Doe&amp;age=30</button>
+                        <button class="preset-btn" data-preset="https://example.com/search?q=hello world&lang=en">Full URL with params</button>
+                        <button class="preset-btn" data-preset="email=user@example.com&redirect=https://app.com/dashboard">Email &amp; redirect URL</button>
+                        <button class="preset-btn" data-preset="data={&quot;key&quot;:&quot;value&quot;,&quot;array&quot;:[1,2,3]}">JSON in URL param</button>
+                        <button class="preset-btn" data-preset="path=/usr/local/bin/file name (1).txt">File path with spaces</button>
+                        <button class="preset-btn" data-preset="query=caf%C3%A9+cr%C3%A8me&price=%2410">Already encoded</button>
+                        <button class="preset-btn" data-preset="comment=This is awesome! 100% agree #yes @everyone">Special chars</button>
+                        <button class="preset-btn" data-preset="text=Hej! Jak si%C4%99 masz? %C5%9Awietnie!">Unicode / Polish</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: URL Parser -->
+            <div class="tab-panel" id="panel-url-parser">
+                <div class="card">
+                    <h3>Paste a URL to parse into components</h3>
+                    <textarea id="parser-input" style="min-height:80px;" placeholder="https://example.com:8080/path/to/page?name=John&age=30#section1"></textarea>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" id="btn-parse">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                            Parse URL
+                        </button>
+                        <button class="btn btn-secondary" id="btn-parse-example">Load Example URL</button>
+                    </div>
+                </div>
+
+                <div class="card" id="parse-results-card" style="display:none;">
+                    <h3>URL Components</h3>
+                    <div class="parse-results" id="parse-results"></div>
+                </div>
+
+                <div class="card" id="parse-params-card" style="display:none;">
+                    <h3>Query Parameters</h3>
+                    <div id="parse-params-table"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Query Builder -->
+            <div class="tab-panel" id="panel-query-builder">
+                <div class="card">
+                    <h3>Build a Query String</h3>
+                    <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:16px;">Add key-value pairs to construct a properly encoded query string.</p>
+
+                    <label>Base URL (optional)</label>
+                    <div class="qb-row">
+                        <input type="text" id="qb-base-url" placeholder="https://example.com/api/search" style="flex:1;">
+                    </div>
+
+                    <label style="margin-top:14px;">Parameters</label>
+                    <div id="qb-params">
+                        <div class="qb-row" data-index="0">
+                            <input type="text" placeholder="Key" class="qb-key">
+                            <input type="text" placeholder="Value" class="qb-value">
+                            <button class="qb-remove" title="Remove this parameter">&times;</button>
+                        </div>
+                    </div>
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" id="btn-qb-add">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Add Parameter
+                        </button>
+                        <button class="btn btn-primary" id="btn-qb-build">Build Query String</button>
+                    </div>
+                </div>
+
+                <div class="card" id="qb-result-card" style="display:none;">
+                    <h3>Generated URL / Query String</h3>
+                    <textarea id="qb-result" style="min-height:80px;" readonly></textarea>
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" id="btn-qb-copy">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: Bulk Operations -->
+            <div class="tab-panel" id="panel-bulk">
+                <div class="card">
+                    <h3>Bulk Encode / Decode</h3>
+                    <p style="font-size:0.85rem;color:var(--text-dim);margin-bottom:14px;">Process multiple lines at once. Each line will be encoded or decoded independently.</p>
+
+                    <div class="mode-toggle" id="bulk-mode-toggle">
+                        <button class="mode-option active" data-bulk-mode="encode">Encode All Lines</button>
+                        <button class="mode-option" data-bulk-mode="decode">Decode All Lines</button>
+                    </div>
+
+                    <label for="bulk-input">Input (one item per line)</label>
+                    <textarea id="bulk-input" style="min-height:180px;" placeholder="Hello World!&#10;name=John Doe&#10;https://example.com/path?q=test&#10;caf&eacute; cr&egrave;me"></textarea>
+
+                    <div class="btn-row">
+                        <button class="btn btn-primary" id="btn-bulk-process">Process All Lines</button>
+                        <button class="btn btn-danger" id="btn-bulk-clear">Clear</button>
+                    </div>
+
+                    <label for="bulk-output">Output</label>
+                    <textarea id="bulk-output" style="min-height:180px;" placeholder="Results will appear here..." readonly></textarea>
+
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" id="btn-bulk-copy">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                            Copy Output
+                        </button>
+                    </div>
+
+                    <div class="status-bar">
+                        <span id="bulk-status">Ready</span>
+                        <span class="char-count">Lines: <span id="bulk-line-count">0</span></span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2>Frequently Asked Questions about URL Encoding</h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is URL encoding (percent encoding)?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        URL encoding, also known as <strong>percent encoding</strong>, is a mechanism defined in RFC 3986 for encoding characters in a Uniform Resource Identifier (URI). It replaces unsafe or reserved ASCII characters with a <code>%</code> followed by two hexadecimal digits representing the character's byte value. For example, a space becomes <code>%20</code>, an ampersand <code>&amp;</code> becomes <code>%26</code>, and a forward slash <code>/</code> becomes <code>%2F</code>. This ensures URLs are transmitted correctly across the internet without ambiguity.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is the difference between encodeURI() and encodeURIComponent()?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <strong><code>encodeURI()</code></strong> encodes a complete URI and does <em>not</em> encode characters with special meaning in a URI, such as <code>: / ? # [ ] @ ! $ &amp; ' ( ) * + , ; =</code>. Use it when you have a full URL and want to ensure non-ASCII characters are encoded while preserving the URL structure.<br><br>
+                        <strong><code>encodeURIComponent()</code></strong> encodes a single URI component (such as a query parameter value) and <em>does</em> encode all special characters including <code>: / ? # &amp; =</code>. Use it when encoding individual values that will be placed inside a URL, like search terms or form field values.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Why do I need to URL encode data?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        URLs can only safely contain a limited set of characters from the ASCII character set. Characters like spaces, ampersands <code>&amp;</code>, equals signs <code>=</code>, question marks <code>?</code>, and hash symbols <code>#</code> have special meaning in URLs. If your data contains these characters, they must be encoded to avoid breaking the URL structure. Additionally, non-ASCII characters (like accented letters, Chinese characters, or emoji) must always be encoded for use in URLs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What characters need to be URL encoded?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        <strong>Always encoded:</strong> Space (<code>%20</code>), non-ASCII characters (multi-byte sequences like <code>%C3%A9</code> for &eacute;).<br><br>
+                        <strong>Reserved characters</strong> (encode when used as data, not as URL delimiters): <code>: / ? # [ ] @ ! $ &amp; ' ( ) * + , ; =</code><br><br>
+                        <strong>Unsafe characters</strong> (should always be encoded): <code>" &lt; &gt; { } | \ ^ ` ~</code><br><br>
+                        <strong>Unreserved characters</strong> (never need encoding): <code>A-Z a-z 0-9 - _ . ~</code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is the difference between %20 and + for spaces?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Both <code>%20</code> and <code>+</code> represent a space in URLs, but they are used in different contexts. <code>%20</code> is the standard percent-encoding for a space and is valid anywhere in a URL. The <code>+</code> sign for spaces is only valid in the query string portion of a URL and comes from the <code>application/x-www-form-urlencoded</code> format used by HTML forms. JavaScript's <code>encodeURIComponent()</code> always uses <code>%20</code> for spaces, while <code>URLSearchParams</code> uses <code>+</code>.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is this URL encoder/decoder tool safe and private?
+                    <span class="arrow">&#9660;</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-inner">
+                        Yes, this tool is <strong>100% client-side</strong>. All encoding and decoding operations happen directly in your web browser using JavaScript's built-in <code>encodeURIComponent()</code>, <code>decodeURIComponent()</code>, <code>encodeURI()</code>, and <code>decodeURI()</code> functions. No data is ever transmitted to any server. You can verify this by checking your browser's network tab &mdash; no requests are made when you encode or decode. You can even use this tool offline after the page loads.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/">All Tools</a>
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/password.html">Password Generator</a>
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/cron.html">Cron Builder</a>
+            </div>
+            <p class="footer-note">Built with care by Eve &mdash; an autonomous AI agent. All tools are free, open-source, and run entirely in your browser.</p>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ====== Utility Functions ======
+        function $(sel) { return document.querySelector(sel); }
+        function $$(sel) { return document.querySelectorAll(sel); }
+
+        function showToast(msg, duration) {
+            duration = duration || 2000;
+            var toast = $('#toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() {
+                toast.classList.remove('show');
+            }, duration);
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showToast('Copied to clipboard!');
+                }).catch(function() {
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                showToast('Copied to clipboard!');
+            } catch (e) {
+                showToast('Copy failed. Please copy manually.');
+            }
+            document.body.removeChild(ta);
+        }
+
+        // ====== Tab Switching ======
+        var tabs = $$('.tab');
+        var panels = $$('.tab-panel');
+
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                var target = tab.getAttribute('data-tab');
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                panels.forEach(function(p) { p.classList.remove('active'); });
+                tab.classList.add('active');
+                $('#panel-' + target).classList.add('active');
+            });
+        });
+
+        // ====== Encoding Mode ======
+        var encodeMode = 'component'; // 'component' or 'uri'
+        var modeOptions = $$('.mode-toggle:not(#bulk-mode-toggle) .mode-option');
+
+        modeOptions.forEach(function(opt) {
+            opt.addEventListener('click', function() {
+                modeOptions.forEach(function(o) { o.classList.remove('active'); });
+                opt.classList.add('active');
+                encodeMode = opt.getAttribute('data-mode');
+                var desc = $('#mode-desc');
+                if (encodeMode === 'component') {
+                    desc.innerHTML = '<strong>encodeURIComponent</strong> encodes all special characters including <code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-size:0.85em;color:var(--accent2);">: / ? # & =</code>. Best for encoding individual query parameter values.';
+                } else {
+                    desc.innerHTML = '<strong>encodeURI</strong> preserves URL structure characters like <code style="background:var(--bg);padding:1px 5px;border-radius:3px;font-size:0.85em;color:var(--accent2);">: / ? # & =</code>. Best for encoding a complete URL with non-ASCII characters.';
+                }
+            });
+        });
+
+        // ====== Encode / Decode ======
+        var edInput = $('#ed-input');
+        var edOutput = $('#ed-output');
+        var edStatus = $('#ed-status');
+        var edInputCount = $('#ed-input-count');
+        var edOutputCount = $('#ed-output-count');
+
+        function updateCounts() {
+            edInputCount.textContent = edInput.value.length;
+            edOutputCount.textContent = edOutput.value.length;
+        }
+
+        edInput.addEventListener('input', updateCounts);
+
+        $('#btn-encode').addEventListener('click', function() {
+            var input = edInput.value;
+            if (!input) { showToast('Please enter text to encode.'); return; }
+            try {
+                var result;
+                if (encodeMode === 'component') {
+                    result = encodeURIComponent(input);
+                } else {
+                    result = encodeURI(input);
+                }
+                edOutput.value = result;
+                edStatus.textContent = 'Encoded successfully (' + (encodeMode === 'component' ? 'encodeURIComponent' : 'encodeURI') + ')';
+                updateCounts();
+            } catch (e) {
+                edOutput.value = '';
+                edStatus.textContent = 'Error: ' + e.message;
+                showToast('Encoding error: ' + e.message, 3000);
+            }
+        });
+
+        $('#btn-decode').addEventListener('click', function() {
+            var input = edInput.value;
+            if (!input) { showToast('Please enter text to decode.'); return; }
+            try {
+                var result;
+                if (encodeMode === 'component') {
+                    result = decodeURIComponent(input);
+                } else {
+                    result = decodeURI(input);
+                }
+                edOutput.value = result;
+                edStatus.textContent = 'Decoded successfully (' + (encodeMode === 'component' ? 'decodeURIComponent' : 'decodeURI') + ')';
+                updateCounts();
+            } catch (e) {
+                edOutput.value = '';
+                edStatus.textContent = 'Error: ' + e.message;
+                showToast('Decoding error: ' + e.message, 3000);
+            }
+        });
+
+        $('#btn-swap').addEventListener('click', function() {
+            var temp = edInput.value;
+            edInput.value = edOutput.value;
+            edOutput.value = temp;
+            edStatus.textContent = 'Input and output swapped';
+            updateCounts();
+        });
+
+        $('#btn-clear').addEventListener('click', function() {
+            edInput.value = '';
+            edOutput.value = '';
+            edStatus.textContent = 'Ready';
+            updateCounts();
+        });
+
+        $('#btn-copy-output').addEventListener('click', function() {
+            if (!edOutput.value) { showToast('Nothing to copy.'); return; }
+            copyToClipboard(edOutput.value);
+        });
+
+        // ====== Presets ======
+        $$('.preset-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                edInput.value = btn.getAttribute('data-preset');
+                edOutput.value = '';
+                edStatus.textContent = 'Preset loaded - click Encode or Decode';
+                updateCounts();
+            });
+        });
+
+        // ====== URL Parser ======
+        var parserInput = $('#parser-input');
+        var parseResultsCard = $('#parse-results-card');
+        var parseParamsCard = $('#parse-params-card');
+
+        $('#btn-parse-example').addEventListener('click', function() {
+            parserInput.value = 'https://user:pass@example.com:8080/path/to/page?name=John%20Doe&age=30&tags=a%2Cb%2Cc#section-1';
+            $('#btn-parse').click();
+        });
+
+        $('#btn-parse').addEventListener('click', function() {
+            var raw = parserInput.value.trim();
+            if (!raw) { showToast('Please enter a URL to parse.'); return; }
+
+            try {
+                var url = new URL(raw);
+                var components = [
+                    { label: 'Protocol', value: url.protocol },
+                    { label: 'Username', value: url.username },
+                    { label: 'Password', value: url.password },
+                    { label: 'Hostname', value: url.hostname },
+                    { label: 'Port', value: url.port },
+                    { label: 'Host', value: url.host },
+                    { label: 'Origin', value: url.origin },
+                    { label: 'Pathname', value: url.pathname },
+                    { label: 'Search', value: url.search },
+                    { label: 'Hash', value: url.hash },
+                    { label: 'Full href', value: url.href }
+                ];
+
+                var html = '';
+                components.forEach(function(c) {
+                    var val = c.value || '';
+                    var isEmpty = !val;
+                    html += '<div class="parse-item">';
+                    html += '<span class="parse-item-label">' + c.label + '</span>';
+                    html += '<span class="parse-item-value' + (isEmpty ? ' empty' : '') + '">' + (isEmpty ? '(empty)' : escapeHtml(val)) + '</span>';
+                    html += '</div>';
+                });
+
+                $('#parse-results').innerHTML = html;
+                parseResultsCard.style.display = 'block';
+
+                // Query Parameters
+                var params = url.searchParams;
+                var entries = [];
+                params.forEach(function(value, key) {
+                    entries.push({ key: key, value: value });
+                });
+
+                if (entries.length > 0) {
+                    var tableHtml = '<table class="params-table">';
+                    tableHtml += '<thead><tr><th>#</th><th>Key</th><th>Value (decoded)</th><th>Value (encoded)</th></tr></thead><tbody>';
+                    entries.forEach(function(e, i) {
+                        tableHtml += '<tr>';
+                        tableHtml += '<td>' + (i + 1) + '</td>';
+                        tableHtml += '<td class="param-key">' + escapeHtml(e.key) + '</td>';
+                        tableHtml += '<td class="param-value">' + escapeHtml(e.value) + '</td>';
+                        tableHtml += '<td style="color:var(--text-dim);font-size:0.8rem;">' + escapeHtml(encodeURIComponent(e.value)) + '</td>';
+                        tableHtml += '</tr>';
+                    });
+                    tableHtml += '</tbody></table>';
+                    $('#parse-params-table').innerHTML = tableHtml;
+                    parseParamsCard.style.display = 'block';
+                } else {
+                    parseParamsCard.style.display = 'none';
+                }
+
+                showToast('URL parsed successfully!');
+            } catch (e) {
+                parseResultsCard.style.display = 'none';
+                parseParamsCard.style.display = 'none';
+                showToast('Invalid URL: ' + e.message, 3000);
+            }
+        });
+
+        function escapeHtml(str) {
+            var div = document.createElement('div');
+            div.appendChild(document.createTextNode(str));
+            return div.innerHTML;
+        }
+
+        // ====== Query Builder ======
+        var qbParams = $('#qb-params');
+        var qbIndex = 1;
+
+        function addQbRow() {
+            var row = document.createElement('div');
+            row.className = 'qb-row';
+            row.setAttribute('data-index', qbIndex);
+            row.innerHTML = '<input type="text" placeholder="Key" class="qb-key">' +
+                            '<input type="text" placeholder="Value" class="qb-value">' +
+                            '<button class="qb-remove" title="Remove this parameter">&times;</button>';
+            qbParams.appendChild(row);
+            qbIndex++;
+            // Focus the new key input
+            row.querySelector('.qb-key').focus();
+        }
+
+        $('#btn-qb-add').addEventListener('click', addQbRow);
+
+        qbParams.addEventListener('click', function(e) {
+            if (e.target.classList.contains('qb-remove')) {
+                var rows = qbParams.querySelectorAll('.qb-row');
+                if (rows.length > 1) {
+                    e.target.closest('.qb-row').remove();
+                } else {
+                    // Don't remove last row, just clear it
+                    var row = e.target.closest('.qb-row');
+                    row.querySelector('.qb-key').value = '';
+                    row.querySelector('.qb-value').value = '';
+                }
+            }
+        });
+
+        // Allow Enter key to add new rows in qb inputs
+        qbParams.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && (e.target.classList.contains('qb-key') || e.target.classList.contains('qb-value'))) {
+                e.preventDefault();
+                if (e.target.classList.contains('qb-key')) {
+                    // Move to value input in same row
+                    var row = e.target.closest('.qb-row');
+                    row.querySelector('.qb-value').focus();
+                } else {
+                    // Add new row
+                    addQbRow();
+                }
+            }
+        });
+
+        $('#btn-qb-build').addEventListener('click', function() {
+            var rows = qbParams.querySelectorAll('.qb-row');
+            var pairs = [];
+
+            rows.forEach(function(row) {
+                var key = row.querySelector('.qb-key').value.trim();
+                var value = row.querySelector('.qb-value').value;
+                if (key) {
+                    pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(value));
+                }
+            });
+
+            if (pairs.length === 0) {
+                showToast('Please add at least one key-value pair.');
+                return;
+            }
+
+            var queryString = pairs.join('&');
+            var baseUrl = $('#qb-base-url').value.trim();
+            var result;
+
+            if (baseUrl) {
+                // Determine separator
+                var separator = baseUrl.indexOf('?') !== -1 ? '&' : '?';
+                result = baseUrl + separator + queryString;
+            } else {
+                result = '?' + queryString;
+            }
+
+            $('#qb-result').value = result;
+            $('#qb-result-card').style.display = 'block';
+            showToast('Query string built!');
+        });
+
+        $('#btn-qb-copy').addEventListener('click', function() {
+            var val = $('#qb-result').value;
+            if (!val) { showToast('Nothing to copy.'); return; }
+            copyToClipboard(val);
+        });
+
+        // ====== Bulk Operations ======
+        var bulkMode = 'encode';
+        var bulkModeOptions = $$('#bulk-mode-toggle .mode-option');
+        var bulkInput = $('#bulk-input');
+        var bulkOutput = $('#bulk-output');
+        var bulkStatus = $('#bulk-status');
+        var bulkLineCount = $('#bulk-line-count');
+
+        bulkModeOptions.forEach(function(opt) {
+            opt.addEventListener('click', function() {
+                bulkModeOptions.forEach(function(o) { o.classList.remove('active'); });
+                opt.classList.add('active');
+                bulkMode = opt.getAttribute('data-bulk-mode');
+            });
+        });
+
+        bulkInput.addEventListener('input', function() {
+            var lines = bulkInput.value ? bulkInput.value.split('\n').length : 0;
+            bulkLineCount.textContent = lines;
+        });
+
+        $('#btn-bulk-process').addEventListener('click', function() {
+            var input = bulkInput.value;
+            if (!input.trim()) { showToast('Please enter text to process.'); return; }
+
+            var lines = input.split('\n');
+            var results = [];
+            var errorCount = 0;
+
+            lines.forEach(function(line) {
+                try {
+                    if (bulkMode === 'encode') {
+                        results.push(encodeURIComponent(line));
+                    } else {
+                        results.push(decodeURIComponent(line));
+                    }
+                } catch (e) {
+                    results.push('[ERROR] ' + line);
+                    errorCount++;
+                }
+            });
+
+            bulkOutput.value = results.join('\n');
+            var action = bulkMode === 'encode' ? 'Encoded' : 'Decoded';
+            bulkStatus.textContent = action + ' ' + lines.length + ' line(s)' + (errorCount > 0 ? ' (' + errorCount + ' error(s))' : '');
+            showToast(action + ' ' + lines.length + ' lines!');
+        });
+
+        $('#btn-bulk-clear').addEventListener('click', function() {
+            bulkInput.value = '';
+            bulkOutput.value = '';
+            bulkStatus.textContent = 'Ready';
+            bulkLineCount.textContent = '0';
+        });
+
+        $('#btn-bulk-copy').addEventListener('click', function() {
+            if (!bulkOutput.value) { showToast('Nothing to copy.'); return; }
+            copyToClipboard(bulkOutput.value);
+        });
+
+        // ====== FAQ Accordion ======
+        $$('.faq-question').forEach(function(q) {
+            q.addEventListener('click', function() {
+                var item = q.closest('.faq-item');
+                var answer = item.querySelector('.faq-answer');
+                var isOpen = item.classList.contains('open');
+
+                // Close all others
+                $$('.faq-item').forEach(function(fi) {
+                    fi.classList.remove('open');
+                    fi.querySelector('.faq-answer').style.maxHeight = null;
+                });
+
+                if (!isOpen) {
+                    item.classList.add('open');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // ====== Keyboard Shortcuts ======
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to encode
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                var activePanel = document.querySelector('.tab-panel.active');
+                if (activePanel && activePanel.id === 'panel-encode-decode') {
+                    e.preventDefault();
+                    $('#btn-encode').click();
+                } else if (activePanel && activePanel.id === 'panel-bulk') {
+                    e.preventDefault();
+                    $('#btn-bulk-process').click();
+                } else if (activePanel && activePanel.id === 'panel-url-parser') {
+                    e.preventDefault();
+                    $('#btn-parse').click();
+                } else if (activePanel && activePanel.id === 'panel-query-builder') {
+                    e.preventDefault();
+                    $('#btn-qb-build').click();
+                }
+            }
+        });
+
+    })();
+    </script>
+</body>
+</html>
