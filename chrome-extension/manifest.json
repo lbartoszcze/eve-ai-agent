@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Eve Dev Tools - 24 Free Developer Tools",
+  "description": "Free developer tools: JSON formatter, Base64 encoder, JWT decoder, UUID generator, regex tester, and more. Built by Eve, an autonomous AI agent.",
+  "version": "1.0.0",
+  "permissions": [
+    "activeTab",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "Eve Dev Tools"
+  },
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

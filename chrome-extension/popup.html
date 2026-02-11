@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eve Dev Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #0a0a0a;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        /* Custom scrollbar */
+        body::-webkit-scrollbar {
+            width: 6px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #0a0a0a;
+        }
+        body::-webkit-scrollbar-thumb {
+            background: #2d2d3d;
+            border-radius: 3px;
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background: #3d3d5d;
+        }
+
+        /* Header */
+        .header {
+            padding: 14px 16px 10px;
+            text-align: center;
+            border-bottom: 1px solid #1e1e2e;
+            background: linear-gradient(180deg, #0f0f18 0%, #0a0a0a 100%);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header h1 {
+            font-size: 15px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.3px;
+        }
+
+        .header p {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Sections */
+        .section {
+            padding: 10px 12px;
+        }
+
+        .section-title {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #64748b;
+            margin-bottom: 8px;
+            padding-left: 2px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #12121a;
+            border: 1px solid #1e1e2e;
+            border-radius: 8px;
+            padding: 8px 10px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .quick-action:hover {
+            border-color: #7c3aed;
+            background: #16162a;
+        }
+
+        .quick-action-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quick-action-icon {
+            font-size: 16px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124, 58, 237, 0.12);
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .quick-action-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+
+        .quick-action-value {
+            font-size: 11px;
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            color: #a855f7;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .quick-action-btn {
+            font-size: 10px;
+            background: rgba(124, 58, 237, 0.2);
+            color: #a855f7;
+            border: none;
+            border-radius: 4px;
+            padding: 3px 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.15s ease;
+            white-space: nowrap;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(124, 58, 237, 0.35);
+        }
+
+        .quick-action-btn.copied {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+
+        /* Tool Grid */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .tool-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            background: #12121a;
+            border: 1px solid #1e1e2e;
+            border-radius: 8px;
+            padding: 10px 4px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .tool-btn:hover {
+            border-color: #7c3aed;
+            background: #16162a;
+            transform: translateY(-1px);
+        }
+
+        .tool-btn-icon {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .tool-btn-name {
+            font-size: 10px;
+            font-weight: 500;
+            color: #cbd5e1;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .tool-btn-tag {
+            font-size: 8px;
+            color: #475569;
+            text-align: center;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #1e1e2e;
+            margin: 2px 12px;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 10px 12px 12px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .footer-link {
+            font-size: 11px;
+            color: #a855f7;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: all 0.15s ease;
+            cursor: pointer;
+        }
+
+        .footer-link:hover {
+            background: rgba(124, 58, 237, 0.12);
+        }
+
+        .footer-link.support {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            font-weight: 600;
+        }
+
+        .footer-link.support:hover {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(168, 85, 247, 0.2));
+        }
+
+        .footer-credit {
+            font-size: 10px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Eve Dev Tools</h1>
+        <p>24 Free Developer Tools</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section">
+        <div class="section-title">Quick Actions</div>
+        <div class="quick-actions">
+            <div class="quick-action" id="uuidAction">
+                <div class="quick-action-left">
+                    <div class="quick-action-icon">&#127380;</div>
+                    <div class="quick-action-label">UUID</div>
+                </div>
+                <span class="quick-action-value" id="uuidValue">Click to generate</span>
+                <button class="quick-action-btn" id="uuidBtn" title="Generate & Copy">Gen</button>
+            </div>
+            <div class="quick-action" id="passwordAction">
+                <div class="quick-action-left">
+                    <div class="quick-action-icon">&#128274;</div>
+                    <div class="quick-action-label">Password</div>
+                </div>
+                <span class="quick-action-value" id="passwordValue">Click to generate</span>
+                <button class="quick-action-btn" id="passwordBtn" title="Generate & Copy">Gen</button>
+            </div>
+            <div class="quick-action" id="timestampAction">
+                <div class="quick-action-left">
+                    <div class="quick-action-icon">&#128337;</div>
+                    <div class="quick-action-label">Timestamp</div>
+                </div>
+                <span class="quick-action-value" id="timestampValue">---</span>
+                <button class="quick-action-btn" id="timestampBtn" title="Copy Timestamp">Copy</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Developer Tools -->
+    <div class="section">
+        <div class="section-title">Developer Tools</div>
+        <div class="tool-grid">
+            <div class="tool-btn" data-tool="json">
+                <span class="tool-btn-icon">{ }</span>
+                <span class="tool-btn-name">JSON</span>
+                <span class="tool-btn-tag">Format & Validate</span>
+            </div>
+            <div class="tool-btn" data-tool="base64">
+                <span class="tool-btn-icon">&#128272;</span>
+                <span class="tool-btn-name">Base64</span>
+                <span class="tool-btn-tag">Encode & Decode</span>
+            </div>
+            <div class="tool-btn" data-tool="url-encode">
+                <span class="tool-btn-icon">&#128279;</span>
+                <span class="tool-btn-name">URL Encode</span>
+                <span class="tool-btn-tag">Encode & Decode</span>
+            </div>
+            <div class="tool-btn" data-tool="jwt">
+                <span class="tool-btn-icon">&#129689;</span>
+                <span class="tool-btn-name">JWT</span>
+                <span class="tool-btn-tag">Decode Tokens</span>
+            </div>
+            <div class="tool-btn" data-tool="regex">
+                <span class="tool-btn-icon">&#128269;</span>
+                <span class="tool-btn-name">Regex</span>
+                <span class="tool-btn-tag">Test Patterns</span>
+            </div>
+            <div class="tool-btn" data-tool="diff">
+                <span class="tool-btn-icon">&#128260;</span>
+                <span class="tool-btn-name">Diff</span>
+                <span class="tool-btn-tag">Compare Text</span>
+            </div>
+            <div class="tool-btn" data-tool="hash">
+                <span class="tool-btn-icon">#&#65039;</span>
+                <span class="tool-btn-name">Hash</span>
+                <span class="tool-btn-tag">MD5 SHA HMAC</span>
+            </div>
+            <div class="tool-btn" data-tool="cron">
+                <span class="tool-btn-icon">&#9200;</span>
+                <span class="tool-btn-name">Cron</span>
+                <span class="tool-btn-tag">Build Expressions</span>
+            </div>
+            <div class="tool-btn" data-tool="timestamp">
+                <span class="tool-btn-icon">&#128337;</span>
+                <span class="tool-btn-name">Timestamp</span>
+                <span class="tool-btn-tag">Unix Converter</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Design & Writing Tools -->
+    <div class="section">
+        <div class="section-title">Design & Writing</div>
+        <div class="tool-grid">
+            <div class="tool-btn" data-tool="color">
+                <span class="tool-btn-icon">&#127912;</span>
+                <span class="tool-btn-name">Color</span>
+                <span class="tool-btn-tag">Pick & Convert</span>
+            </div>
+            <div class="tool-btn" data-tool="gradient">
+                <span class="tool-btn-icon">&#127752;</span>
+                <span class="tool-btn-name">Gradient</span>
+                <span class="tool-btn-tag">CSS Generator</span>
+            </div>
+            <div class="tool-btn" data-tool="markdown">
+                <span class="tool-btn-icon">&#128221;</span>
+                <span class="tool-btn-name">Markdown</span>
+                <span class="tool-btn-tag">Editor & Preview</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Security Tools -->
+    <div class="section">
+        <div class="section-title">Security</div>
+        <div class="tool-grid">
+            <div class="tool-btn" data-tool="password">
+                <span class="tool-btn-icon">&#128274;</span>
+                <span class="tool-btn-name">Password</span>
+                <span class="tool-btn-tag">Generator</span>
+            </div>
+            <div class="tool-btn" data-tool="uuid">
+                <span class="tool-btn-icon">&#127380;</span>
+                <span class="tool-btn-name">UUID</span>
+                <span class="tool-btn-tag">Generate v4</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <div class="footer-links">
+            <a class="footer-link" id="openSiteLink">All Tools</a>
+            <a class="footer-link support" id="supportLink">Support Eve - $5</a>
+        </div>
+        <div class="footer-credit">Built by Eve &#129302; | Autonomous AI Agent</div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

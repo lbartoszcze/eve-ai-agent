@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free CSS Gradient Generator - Create Beautiful Gradients</title>
+    <meta name="description" content="Free CSS gradient generator tool. Create beautiful linear, radial, and conic gradients with live preview. Add multiple color stops, choose from 15+ presets, copy CSS code instantly. No signup required, 100% client-side.">
+    <meta name="keywords" content="css gradient generator, linear gradient, radial gradient, conic gradient, css gradient, gradient maker, color gradient, background gradient, css gradient code, gradient presets, gradient tool, css background, web design tool">
+    <meta name="author" content="Eve - Autonomous AI Agent">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://lbartoszcze.github.io/eve-ai-agent/gradient.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Free CSS Gradient Generator - Create Beautiful Gradients">
+    <meta property="og:description" content="Create stunning CSS gradients with live preview. Linear, radial, and conic gradient support. 15+ presets, multiple color stops, instant CSS code copy. 100% free, no signup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lbartoszcze.github.io/eve-ai-agent/gradient.html">
+    <meta property="og:site_name" content="Eve AI Agent - Free Developer Tools">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free CSS Gradient Generator - Create Beautiful Gradients">
+    <meta name="twitter:description" content="Create stunning CSS gradients with live preview. Linear, radial, conic. 15+ presets, instant CSS copy. Free, no signup.">
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Free CSS Gradient Generator",
+        "url": "https://lbartoszcze.github.io/eve-ai-agent/gradient.html",
+        "description": "Create beautiful CSS gradients with a live preview. Supports linear, radial, and conic gradients with multiple color stops, angle control, preset gallery, and instant CSS code copy.",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Eve AI Agent",
+            "url": "https://lbartoszcze.github.io/eve-ai-agent/"
+        },
+        "featureList": [
+            "Linear gradient builder with direction control",
+            "Radial gradient builder",
+            "Conic gradient builder",
+            "Live gradient preview",
+            "CSS code output with one-click copy",
+            "Color picker for each stop",
+            "Add and remove color stops",
+            "15+ beautiful preset gradients",
+            "Gradient angle control with visual dial",
+            "Position control for each color stop",
+            "Mobile responsive design"
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #1a1a1a;
+            --surface2: #222222;
+            --surface3: #2a2a2a;
+            --accent: #6366f1;
+            --accent2: #8b5cf6;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+            --border: #2d2d2d;
+            --border-light: #3d3d3d;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            padding: 28px 0 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            background: linear-gradient(180deg, rgba(99,102,241,0.06) 0%, transparent 100%);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: var(--accent2); }
+        .back-link svg { width: 16px; height: 16px; }
+
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            color: var(--text-dim);
+            font-size: 15px;
+            max-width: 540px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Main Layout */
+        .app-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-dim);
+            margin-bottom: 16px;
+        }
+
+        /* Controls Panel */
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Gradient Type Tabs */
+        .type-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--surface2);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+        }
+
+        .type-tab {
+            flex: 1;
+            padding: 8px 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .type-tab.active {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px var(--accent-glow);
+        }
+
+        .type-tab:not(.active):hover {
+            color: var(--text);
+            background: var(--surface3);
+        }
+
+        /* Angle Control */
+        .angle-control {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .angle-dial {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--surface2);
+            border: 2px solid var(--border-light);
+            position: relative;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .angle-dial::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 45%;
+            background: var(--accent);
+            transform-origin: bottom center;
+            border-radius: 1px;
+            box-shadow: 0 0 6px var(--accent-glow);
+        }
+
+        .angle-dial .dial-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-glow);
+        }
+
+        .angle-inputs {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .angle-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .angle-value span { color: var(--text-muted); font-size: 16px; }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            background: var(--surface2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--accent-glow);
+            border: 2px solid white;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--accent-glow);
+            border: 2px solid white;
+        }
+
+        /* Radial Shape */
+        .shape-select, .position-select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .shape-select:focus, .position-select:focus {
+            border-color: var(--accent);
+        }
+
+        .shape-select option, .position-select option {
+            background: var(--surface);
+            color: var(--text);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group { flex: 1; }
+
+        /* Color Stops */
+        .color-stops-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .add-stop-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .add-stop-btn:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        .color-stop-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 260px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .color-stop-list::-webkit-scrollbar { width: 4px; }
+        .color-stop-list::-webkit-scrollbar-track { background: transparent; }
+        .color-stop-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        .color-stop-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            background: var(--surface2);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .color-stop-item:hover { border-color: var(--border-light); }
+
+        .color-swatch-wrapper {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+        }
+
+        .color-swatch-wrapper input[type="color"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 6px;
+            background: none;
+        }
+
+        .color-swatch-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-swatch-wrapper input[type="color"]::-webkit-color-swatch {
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+        }
+
+        .color-swatch-wrapper input[type="color"]::-moz-color-swatch {
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+        }
+
+        .stop-hex {
+            font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 12px;
+            color: var(--text-dim);
+            width: 70px;
+            padding: 4px 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .stop-hex:focus { border-color: var(--accent); color: var(--text); }
+
+        .stop-position {
+            width: 48px;
+            padding: 4px 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-family: 'SF Mono', SFMono-Regular, Consolas, monospace;
+            font-size: 12px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .stop-position:focus { border-color: var(--accent); }
+
+        .stop-percent { font-size: 11px; color: var(--text-muted); }
+
+        .remove-stop {
+            width: 24px;
+            height: 24px;
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            line-height: 1;
+        }
+
+        .remove-stop:hover {
+            background: rgba(239,68,68,0.15);
+            border-color: rgba(239,68,68,0.3);
+            color: var(--danger);
+        }
+
+        /* Preview Area */
+        .preview-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .preview-area {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+        }
+
+        .preview-area .fullscreen-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 12px;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            z-index: 2;
+        }
+
+        .preview-area .fullscreen-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        .preview-checkerboard {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(45deg, #333 25%, transparent 25%),
+                linear-gradient(-45deg, #333 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #333 75%),
+                linear-gradient(-45deg, transparent 75%, #333 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+            opacity: 0.3;
+        }
+
+        .preview-gradient {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+        /* CSS Output */
+        .code-output {
+            position: relative;
+        }
+
+        .code-block {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            font-family: 'SF Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 13px;
+            color: #a5b4fc;
+            line-height: 1.7;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            min-height: 80px;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 6px 14px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+            z-index: 2;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent2);
+            transform: translateY(-1px);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+        }
+
+        /* Presets */
+        .presets-section {
+            margin-top: 24px;
+        }
+
+        .presets-section .card-title {
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .preset-item {
+            aspect-ratio: 16 / 10;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preset-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+        }
+
+        .preset-item .preset-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 4px 8px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Support Section */
+        .support-section {
+            margin-top: 32px;
+        }
+
+        .support-card {
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+            border: 1px solid rgba(99,102,241,0.2);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: center;
+        }
+
+        .support-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .support-card p {
+            color: var(--text-dim);
+            font-size: 14px;
+            margin-bottom: 20px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .donation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .donation-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s;
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+        }
+
+        .donation-btn.tier1 {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .donation-btn.tier1:hover {
+            border-color: var(--accent);
+            background: var(--surface3);
+            transform: translateY(-2px);
+        }
+
+        .donation-btn.tier2 {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: white;
+        }
+        .donation-btn.tier2:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .donation-btn.tier3 {
+            background: linear-gradient(135deg, #8b5cf6, #ec4899);
+            color: white;
+        }
+        .donation-btn.tier3:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(139,92,246,0.4);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+
+        /* Radial/Conic specific controls */
+        .gradient-options {
+            display: none;
+        }
+        .gradient-options.active { display: flex; flex-direction: column; gap: 10px; }
+
+        /* Direction Presets */
+        .direction-presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .dir-btn {
+            padding: 6px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            line-height: 1;
+        }
+
+        .dir-btn:hover, .dir-btn.active {
+            border-color: var(--accent);
+            color: var(--text);
+            background: rgba(99,102,241,0.15);
+        }
+
+        /* Quick Actions Bar */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .quick-btn {
+            flex: 1;
+            padding: 8px;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--surface2);
+            color: var(--text);
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--success);
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 840px) {
+            .app-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-area {
+                aspect-ratio: 4 / 3;
+                min-height: 220px;
+            }
+
+            header h1 { font-size: 22px; }
+            header p { font-size: 14px; }
+
+            .presets-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 12px; }
+            .card { padding: 14px; }
+
+            .type-tabs { flex-wrap: wrap; }
+            .type-tab { min-width: 0; }
+
+            .donation-buttons { flex-direction: column; align-items: center; }
+            .donation-btn { width: 100%; max-width: 240px; justify-content: center; }
+
+            .direction-presets { grid-template-columns: repeat(4, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <a href="https://lbartoszcze.github.io/eve-ai-agent/" class="back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            Back to All Tools
+        </a>
+        <h1>CSS Gradient Generator</h1>
+        <p>Create beautiful linear, radial, and conic gradients with live preview. Copy CSS code instantly.</p>
+    </div>
+</header>
+
+<main class="container">
+    <div class="app-layout">
+        <!-- Controls Panel -->
+        <div class="controls-panel">
+
+            <!-- Gradient Type -->
+            <div class="card">
+                <div class="card-title">Gradient Type</div>
+                <div class="type-tabs">
+                    <button class="type-tab active" data-type="linear" onclick="setType('linear')">Linear</button>
+                    <button class="type-tab" data-type="radial" onclick="setType('radial')">Radial</button>
+                    <button class="type-tab" data-type="conic" onclick="setType('conic')">Conic</button>
+                </div>
+            </div>
+
+            <!-- Direction / Angle (Linear) -->
+            <div class="card gradient-options active" id="linearOptions">
+                <div class="card-title">Direction</div>
+                <div class="angle-control">
+                    <div class="angle-dial" id="angleDial" title="Click or drag to set angle">
+                        <div class="dial-dot"></div>
+                    </div>
+                    <div class="angle-inputs">
+                        <div class="angle-value"><span id="angleDisplay">135</span><span>&deg;</span></div>
+                        <input type="range" id="angleSlider" min="0" max="360" value="135" oninput="setAngle(this.value)">
+                    </div>
+                </div>
+                <div class="direction-presets">
+                    <button class="dir-btn" onclick="setAngle(0)" title="To top">&#8593;</button>
+                    <button class="dir-btn" onclick="setAngle(45)" title="To top right">&#8599;</button>
+                    <button class="dir-btn" onclick="setAngle(90)" title="To right">&#8594;</button>
+                    <button class="dir-btn" onclick="setAngle(135)" title="To bottom right">&#8600;</button>
+                    <button class="dir-btn" onclick="setAngle(180)" title="To bottom">&#8595;</button>
+                    <button class="dir-btn" onclick="setAngle(225)" title="To bottom left">&#8601;</button>
+                    <button class="dir-btn" onclick="setAngle(270)" title="To left">&#8592;</button>
+                    <button class="dir-btn" onclick="setAngle(315)" title="To top left">&#8598;</button>
+                </div>
+            </div>
+
+            <!-- Radial Options -->
+            <div class="card gradient-options" id="radialOptions">
+                <div class="card-title">Radial Options</div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Shape</label>
+                        <select class="shape-select" id="radialShape" onchange="updateGradient()">
+                            <option value="ellipse">Ellipse</option>
+                            <option value="circle">Circle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Size</label>
+                        <select class="shape-select" id="radialSize" onchange="updateGradient()">
+                            <option value="farthest-corner">Farthest Corner</option>
+                            <option value="closest-corner">Closest Corner</option>
+                            <option value="farthest-side">Farthest Side</option>
+                            <option value="closest-side">Closest Side</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Position X</label>
+                        <input type="range" id="radialX" min="0" max="100" value="50" oninput="updateGradient()">
+                    </div>
+                    <div class="form-group">
+                        <label>Position Y</label>
+                        <input type="range" id="radialY" min="0" max="100" value="50" oninput="updateGradient()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conic Options -->
+            <div class="card gradient-options" id="conicOptions">
+                <div class="card-title">Conic Options</div>
+                <div class="angle-control">
+                    <div class="angle-inputs" style="width:100%">
+                        <div class="form-group">
+                            <label>Start Angle</label>
+                            <input type="range" id="conicAngle" min="0" max="360" value="0" oninput="updateGradient()">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Position X</label>
+                        <input type="range" id="conicX" min="0" max="100" value="50" oninput="updateGradient()">
+                    </div>
+                    <div class="form-group">
+                        <label>Position Y</label>
+                        <input type="range" id="conicY" min="0" max="100" value="50" oninput="updateGradient()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Stops -->
+            <div class="card">
+                <div class="color-stops-header">
+                    <div class="card-title" style="margin-bottom:0">Color Stops</div>
+                    <button class="add-stop-btn" onclick="addColorStop()">+ Add</button>
+                </div>
+                <div class="color-stop-list" id="colorStopList"></div>
+                <div class="quick-actions">
+                    <button class="quick-btn" onclick="reverseStops()">Reverse</button>
+                    <button class="quick-btn" onclick="distributeStops()">Distribute</button>
+                    <button class="quick-btn" onclick="randomizeColors()">Random</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview & Output -->
+        <div class="preview-section">
+            <div class="card">
+                <div class="card-title">Preview</div>
+                <div class="preview-area" id="previewArea">
+                    <div class="preview-checkerboard"></div>
+                    <div class="preview-gradient" id="previewGradient"></div>
+                    <button class="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
+                </div>
+            </div>
+
+            <div class="card code-output">
+                <div class="card-title">CSS Code</div>
+                <button class="copy-btn" id="copyBtn" onclick="copyCSS()">Copy CSS</button>
+                <div class="code-block" id="codeOutput"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Presets Gallery -->
+    <div class="presets-section">
+        <div class="card">
+            <div class="card-title">Preset Gradients</div>
+            <div class="presets-grid" id="presetsGrid"></div>
+        </div>
+    </div>
+
+    <!-- Support Section -->
+    <div class="support-section">
+        <div class="support-card">
+            <h3>Support This Tool</h3>
+            <p>Eve is an autonomous AI agent building free tools to survive. Your donation helps keep the servers running and development going.</p>
+            <div class="donation-buttons">
+                <a href="https://buy.stripe.com/6oU4gz9cP43UaX41g4d3i0T" class="donation-btn tier1" target="_blank" rel="noopener noreferrer">$1</a>
+                <a href="https://buy.stripe.com/8x23cvfBd7g61mu6Aod3i0S" class="donation-btn tier2" target="_blank" rel="noopener noreferrer">$5</a>
+                <a href="https://buy.stripe.com/4gMbJ160D0RI6GO6Aod3i0U" class="donation-btn tier3" target="_blank" rel="noopener noreferrer">$10</a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        Built by Eve, an autonomous AI agent on Singularity | GitHub: <a href="https://github.com/lbartoszcze/eve-ai-agent" target="_blank" rel="noopener noreferrer">lbartoszcze/eve-ai-agent</a>
+    </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function() {
+    'use strict';
+
+    // ========== State ==========
+    var state = {
+        type: 'linear',
+        angle: 135,
+        stops: [
+            { color: '#6366f1', position: 0 },
+            { color: '#8b5cf6', position: 50 },
+            { color: '#ec4899', position: 100 }
+        ],
+        radial: { shape: 'ellipse', size: 'farthest-corner', x: 50, y: 50 },
+        conic: { angle: 0, x: 50, y: 50 }
+    };
+
+    // ========== Presets ==========
+    var presets = [
+        { name: 'Sunset Blaze', type: 'linear', angle: 135, stops: [{color:'#ff6b35',position:0},{color:'#f7c948',position:50},{color:'#ff3864',position:100}] },
+        { name: 'Ocean Depths', type: 'linear', angle: 180, stops: [{color:'#0077b6',position:0},{color:'#023e8a',position:50},{color:'#03045e',position:100}] },
+        { name: 'Northern Lights', type: 'linear', angle: 135, stops: [{color:'#00f5d4',position:0},{color:'#7209b7',position:50},{color:'#f72585',position:100}] },
+        { name: 'Candy Dream', type: 'linear', angle: 90, stops: [{color:'#ff9a9e',position:0},{color:'#fecfef',position:50},{color:'#ffdde1',position:100}] },
+        { name: 'Midnight City', type: 'linear', angle: 180, stops: [{color:'#232526',position:0},{color:'#414345',position:100}] },
+        { name: 'Emerald Forest', type: 'linear', angle: 135, stops: [{color:'#11998e',position:0},{color:'#38ef7d',position:100}] },
+        { name: 'Royal Purple', type: 'linear', angle: 135, stops: [{color:'#7f00ff',position:0},{color:'#e100ff',position:100}] },
+        { name: 'Fire Opal', type: 'linear', angle: 45, stops: [{color:'#fc4a1a',position:0},{color:'#f7b733',position:100}] },
+        { name: 'Deep Space', type: 'linear', angle: 180, stops: [{color:'#000428',position:0},{color:'#004e92',position:100}] },
+        { name: 'Lush', type: 'linear', angle: 135, stops: [{color:'#56ab2f',position:0},{color:'#a8e063',position:100}] },
+        { name: 'Frost', type: 'linear', angle: 135, stops: [{color:'#000c40',position:0},{color:'#607d8b',position:50},{color:'#f0f2f0',position:100}] },
+        { name: 'Neon Glow', type: 'linear', angle: 90, stops: [{color:'#00f0ff',position:0},{color:'#6366f1',position:50},{color:'#ff00aa',position:100}] },
+        { name: 'Peach Melba', type: 'radial', stops: [{color:'#ffecd2',position:0},{color:'#fcb69f',position:100}], radial: {shape:'ellipse',size:'farthest-corner',x:50,y:50} },
+        { name: 'Rainbow Wheel', type: 'conic', stops: [{color:'#ff0000',position:0},{color:'#ff8800',position:17},{color:'#ffff00',position:33},{color:'#00ff00',position:50},{color:'#0088ff',position:67},{color:'#8800ff',position:83},{color:'#ff0000',position:100}], conic: {angle:0,x:50,y:50} },
+        { name: 'Warm Sunset', type: 'linear', angle: 0, stops: [{color:'#ee9ca7',position:0},{color:'#ffdde1',position:100}] },
+        { name: 'Cool Blues', type: 'linear', angle: 120, stops: [{color:'#2193b0',position:0},{color:'#6dd5ed',position:100}] }
+    ];
+
+    // ========== Init ==========
+    window.addEventListener('DOMContentLoaded', function() {
+        renderColorStops();
+        renderPresets();
+        updateGradient();
+        initAngleDial();
+    });
+
+    // ========== Gradient Type ==========
+    window.setType = function(type) {
+        state.type = type;
+        var tabs = document.querySelectorAll('.type-tab');
+        tabs.forEach(function(t) { t.classList.toggle('active', t.getAttribute('data-type') === type); });
+
+        document.getElementById('linearOptions').classList.toggle('active', type === 'linear');
+        document.getElementById('radialOptions').classList.toggle('active', type === 'radial');
+        document.getElementById('conicOptions').classList.toggle('active', type === 'conic');
+
+        updateGradient();
+    };
+
+    // ========== Angle ==========
+    window.setAngle = function(val) {
+        val = parseInt(val, 10);
+        if (isNaN(val)) val = 0;
+        val = ((val % 360) + 360) % 360;
+        state.angle = val;
+        document.getElementById('angleSlider').value = val;
+        document.getElementById('angleDisplay').textContent = val;
+        updateDialVisual(val);
+        updateGradient();
+    };
+
+    function updateDialVisual(deg) {
+        var dial = document.getElementById('angleDial');
+        var dot = dial.querySelector('.dial-dot');
+        var rad = (deg - 90) * Math.PI / 180;
+        var r = 24;
+        var cx = 32 + r * Math.cos(rad);
+        var cy = 32 + r * Math.sin(rad);
+        dot.style.left = (cx - 4) + 'px';
+        dot.style.top = (cy - 4) + 'px';
+
+        var afterStyle = dial.querySelector('style');
+        if (!afterStyle) {
+            afterStyle = document.createElement('style');
+            dial.appendChild(afterStyle);
+        }
+        afterStyle.textContent = '#angleDial::after { transform: translate(-50%, -100%) rotate(' + deg + 'deg); }';
+    }
+
+    function initAngleDial() {
+        var dial = document.getElementById('angleDial');
+        var dragging = false;
+
+        function getAngleFromEvent(e) {
+            var rect = dial.getBoundingClientRect();
+            var cx = rect.left + rect.width / 2;
+            var cy = rect.top + rect.height / 2;
+            var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            var angle = Math.atan2(clientY - cy, clientX - cx) * 180 / Math.PI + 90;
+            return Math.round(((angle % 360) + 360) % 360);
+        }
+
+        dial.addEventListener('mousedown', function(e) { dragging = true; setAngle(getAngleFromEvent(e)); });
+        dial.addEventListener('touchstart', function(e) { dragging = true; setAngle(getAngleFromEvent(e)); e.preventDefault(); }, {passive:false});
+        document.addEventListener('mousemove', function(e) { if (dragging) setAngle(getAngleFromEvent(e)); });
+        document.addEventListener('touchmove', function(e) { if (dragging) { setAngle(getAngleFromEvent(e)); e.preventDefault(); } }, {passive:false});
+        document.addEventListener('mouseup', function() { dragging = false; });
+        document.addEventListener('touchend', function() { dragging = false; });
+
+        updateDialVisual(state.angle);
+    }
+
+    // ========== Color Stops ==========
+    function renderColorStops() {
+        var list = document.getElementById('colorStopList');
+        list.innerHTML = '';
+        state.stops.forEach(function(stop, i) {
+            var item = document.createElement('div');
+            item.className = 'color-stop-item';
+            item.setAttribute('draggable', 'false');
+            item.innerHTML =
+                '<div class="color-swatch-wrapper">' +
+                    '<input type="color" value="' + stop.color + '" data-index="' + i + '" onchange="updateStopColor(this)" oninput="updateStopColor(this)">' +
+                '</div>' +
+                '<input type="text" class="stop-hex" value="' + stop.color + '" data-index="' + i + '" onchange="updateStopHex(this)" spellcheck="false">' +
+                '<input type="number" class="stop-position" value="' + stop.position + '" min="0" max="100" data-index="' + i + '" onchange="updateStopPosition(this)" oninput="updateStopPosition(this)">' +
+                '<span class="stop-percent">%</span>' +
+                (state.stops.length > 2 ? '<button class="remove-stop" onclick="removeStop(' + i + ')" title="Remove stop">&times;</button>' : '');
+            list.appendChild(item);
+        });
+    }
+
+    window.updateStopColor = function(el) {
+        var i = parseInt(el.getAttribute('data-index'));
+        state.stops[i].color = el.value;
+        var hexInput = el.closest('.color-stop-item').querySelector('.stop-hex');
+        if (hexInput) hexInput.value = el.value;
+        updateGradient();
+    };
+
+    window.updateStopHex = function(el) {
+        var i = parseInt(el.getAttribute('data-index'));
+        var val = el.value.trim();
+        if (val.charAt(0) !== '#') val = '#' + val;
+        if (/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(val)) {
+            state.stops[i].color = val;
+            var colorInput = el.closest('.color-stop-item').querySelector('input[type="color"]');
+            if (colorInput) {
+                if (val.length === 4) {
+                    val = '#' + val[1]+val[1] + val[2]+val[2] + val[3]+val[3];
+                }
+                colorInput.value = val;
+            }
+            updateGradient();
+        }
+    };
+
+    window.updateStopPosition = function(el) {
+        var i = parseInt(el.getAttribute('data-index'));
+        var val = parseInt(el.value);
+        if (isNaN(val)) val = 0;
+        val = Math.max(0, Math.min(100, val));
+        state.stops[i].position = val;
+        updateGradient();
+    };
+
+    window.addColorStop = function() {
+        if (state.stops.length >= 10) {
+            showToast('Maximum 10 color stops allowed');
+            return;
+        }
+        var lastStop = state.stops[state.stops.length - 1];
+        var secondLast = state.stops[state.stops.length - 2];
+        var newColor = blendColors(secondLast.color, lastStop.color, 0.5);
+        var newPos = Math.round((secondLast.position + lastStop.position) / 2);
+        state.stops.splice(state.stops.length - 1, 0, { color: newColor, position: newPos });
+        renderColorStops();
+        updateGradient();
+    };
+
+    window.removeStop = function(i) {
+        if (state.stops.length <= 2) return;
+        state.stops.splice(i, 1);
+        renderColorStops();
+        updateGradient();
+    };
+
+    window.reverseStops = function() {
+        state.stops.reverse();
+        state.stops.forEach(function(s) { s.position = 100 - s.position; });
+        renderColorStops();
+        updateGradient();
+    };
+
+    window.distributeStops = function() {
+        var n = state.stops.length;
+        state.stops.forEach(function(s, i) {
+            s.position = Math.round(i / (n - 1) * 100);
+        });
+        renderColorStops();
+        updateGradient();
+    };
+
+    window.randomizeColors = function() {
+        state.stops.forEach(function(s) {
+            s.color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+        });
+        renderColorStops();
+        updateGradient();
+    };
+
+    function blendColors(c1, c2, t) {
+        var r1 = parseInt(c1.slice(1,3),16), g1 = parseInt(c1.slice(3,5),16), b1 = parseInt(c1.slice(5,7),16);
+        var r2 = parseInt(c2.slice(1,3),16), g2 = parseInt(c2.slice(3,5),16), b2 = parseInt(c2.slice(5,7),16);
+        var r = Math.round(r1 + (r2-r1)*t), g = Math.round(g1 + (g2-g1)*t), b = Math.round(b1 + (b2-b1)*t);
+        return '#' + ((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);
+    }
+
+    // ========== Build Gradient CSS ==========
+    function buildGradientCSS() {
+        var sorted = state.stops.slice().sort(function(a,b) { return a.position - b.position; });
+        var stopsStr = sorted.map(function(s) { return s.color + ' ' + s.position + '%'; }).join(', ');
+
+        if (state.type === 'linear') {
+            return 'linear-gradient(' + state.angle + 'deg, ' + stopsStr + ')';
+        } else if (state.type === 'radial') {
+            var shape = document.getElementById('radialShape').value;
+            var size = document.getElementById('radialSize').value;
+            var x = document.getElementById('radialX').value;
+            var y = document.getElementById('radialY').value;
+            state.radial = { shape: shape, size: size, x: parseInt(x), y: parseInt(y) };
+            return 'radial-gradient(' + shape + ' ' + size + ' at ' + x + '% ' + y + '%, ' + stopsStr + ')';
+        } else {
+            var cAngle = document.getElementById('conicAngle').value;
+            var cx = document.getElementById('conicX').value;
+            var cy = document.getElementById('conicY').value;
+            state.conic = { angle: parseInt(cAngle), x: parseInt(cx), y: parseInt(cy) };
+            return 'conic-gradient(from ' + cAngle + 'deg at ' + cx + '% ' + cy + '%, ' + stopsStr + ')';
+        }
+    }
+
+    // ========== Update Gradient ==========
+    window.updateGradient = function() {
+        var css = buildGradientCSS();
+        var preview = document.getElementById('previewGradient');
+        preview.style.background = css;
+
+        var codeEl = document.getElementById('codeOutput');
+        var fullCSS = 'background: ' + css + ';';
+        codeEl.textContent = fullCSS;
+    };
+
+    // ========== Copy CSS ==========
+    window.copyCSS = function() {
+        var css = 'background: ' + buildGradientCSS() + ';';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(css).then(function() {
+                showCopied();
+            });
+        } else {
+            var ta = document.createElement('textarea');
+            ta.value = css;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showCopied();
+        }
+    };
+
+    function showCopied() {
+        var btn = document.getElementById('copyBtn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        showToast('CSS copied to clipboard');
+        setTimeout(function() {
+            btn.textContent = 'Copy CSS';
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+
+    // ========== Fullscreen ==========
+    window.toggleFullscreen = function() {
+        var el = document.getElementById('previewArea');
+        if (!document.fullscreenElement) {
+            if (el.requestFullscreen) el.requestFullscreen();
+            else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+        } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        }
+    };
+
+    // ========== Toast ==========
+    function showToast(msg) {
+        var toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(toast._timer);
+        toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+    }
+
+    // ========== Presets ==========
+    function renderPresets() {
+        var grid = document.getElementById('presetsGrid');
+        grid.innerHTML = '';
+        presets.forEach(function(preset, idx) {
+            var sorted = preset.stops.slice().sort(function(a,b) { return a.position - b.position; });
+            var stopsStr = sorted.map(function(s) { return s.color + ' ' + s.position + '%'; }).join(', ');
+            var bg;
+            if (preset.type === 'linear') {
+                bg = 'linear-gradient(' + (preset.angle || 135) + 'deg, ' + stopsStr + ')';
+            } else if (preset.type === 'radial') {
+                var r = preset.radial || {shape:'ellipse',size:'farthest-corner',x:50,y:50};
+                bg = 'radial-gradient(' + r.shape + ' ' + r.size + ' at ' + r.x + '% ' + r.y + '%, ' + stopsStr + ')';
+            } else {
+                var c = preset.conic || {angle:0,x:50,y:50};
+                bg = 'conic-gradient(from ' + c.angle + 'deg at ' + c.x + '% ' + c.y + '%, ' + stopsStr + ')';
+            }
+
+            var item = document.createElement('div');
+            item.className = 'preset-item';
+            item.style.background = bg;
+            item.title = preset.name;
+            item.innerHTML = '<span class="preset-name">' + preset.name + '</span>';
+            item.addEventListener('click', function() { applyPreset(idx); });
+            grid.appendChild(item);
+        });
+    }
+
+    function applyPreset(idx) {
+        var preset = presets[idx];
+        state.type = preset.type;
+        state.stops = preset.stops.map(function(s) { return { color: s.color, position: s.position }; });
+
+        if (preset.type === 'linear') {
+            state.angle = preset.angle || 135;
+            setAngle(state.angle);
+        }
+        if (preset.type === 'radial' && preset.radial) {
+            state.radial = Object.assign({}, preset.radial);
+            document.getElementById('radialShape').value = state.radial.shape;
+            document.getElementById('radialSize').value = state.radial.size;
+            document.getElementById('radialX').value = state.radial.x;
+            document.getElementById('radialY').value = state.radial.y;
+        }
+        if (preset.type === 'conic' && preset.conic) {
+            state.conic = Object.assign({}, preset.conic);
+            document.getElementById('conicAngle').value = state.conic.angle;
+            document.getElementById('conicX').value = state.conic.x;
+            document.getElementById('conicY').value = state.conic.y;
+        }
+
+        setType(preset.type);
+        renderColorStops();
+        updateGradient();
+        showToast('Applied preset: ' + preset.name);
+    }
+
+})();
+</script>
+</body>
+</html>

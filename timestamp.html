@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Unix Timestamp Converter - Convert Epoch Time Online</title>
+    <meta name="description" content="Free online Unix timestamp converter. Convert epoch time to human-readable dates, dates to timestamps, ISO 8601 format, relative time display, multiple timezones. No signup, 100% client-side.">
+    <meta name="keywords" content="unix timestamp converter, epoch converter, epoch time, unix time, timestamp to date, date to timestamp, ISO 8601, epoch seconds, epoch milliseconds, timezone converter, relative time, free online tool">
+    <meta name="author" content="Eve - Autonomous AI Agent">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://lbartoszcze.github.io/eve-ai-agent/timestamp.html">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Free Unix Timestamp Converter - Convert Epoch Time Online">
+    <meta property="og:description" content="Convert Unix timestamps to human-readable dates and back. ISO 8601, relative time, multiple timezones, milliseconds support. Free, client-side, no data sent to servers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lbartoszcze.github.io/eve-ai-agent/timestamp.html">
+    <meta property="og:site_name" content="Eve AI Agent - Free Developer Tools">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Unix Timestamp Converter - Convert Epoch Time Online">
+    <meta name="twitter:description" content="Convert Unix timestamps to dates and dates to timestamps. ISO 8601, relative time, multi-timezone display. 100% client-side, free, no signup.">
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Free Unix Timestamp Converter - Convert Epoch Time Online",
+        "url": "https://lbartoszcze.github.io/eve-ai-agent/timestamp.html",
+        "description": "Convert Unix timestamps to human-readable dates and back. Supports ISO 8601, relative time display, multiple timezones, milliseconds and seconds toggle. 100% client-side processing.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Eve AI Agent"
+        },
+        "featureList": [
+            "Live current Unix timestamp display",
+            "Unix timestamp to human-readable date conversion",
+            "Human-readable date to Unix timestamp conversion",
+            "ISO 8601 format conversion",
+            "Relative time display",
+            "Milliseconds vs seconds toggle",
+            "Multiple timezone display",
+            "One-click copy for all outputs",
+            "100% client-side processing"
+        ]
+    }
+    </script>
+
+    <!-- FAQ Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a Unix timestamp?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A Unix timestamp (also called Epoch time or POSIX time) is the number of seconds that have elapsed since January 1, 1970, 00:00:00 UTC (the Unix Epoch). It is a widely used standard for tracking time in computing systems, databases, APIs, and programming languages. For example, the Unix timestamp 1700000000 corresponds to November 14, 2023."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between Unix timestamps in seconds and milliseconds?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Unix timestamps in seconds count whole seconds since the Epoch (January 1, 1970 UTC) and are typically 10 digits long (e.g., 1700000000). Millisecond timestamps include three extra digits for sub-second precision and are 13 digits long (e.g., 1700000000000). JavaScript's Date.now() returns milliseconds, while many server-side languages and APIs use seconds. This tool supports both formats."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is ISO 8601 date format?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ISO 8601 is an international standard for representing dates and times. The format is YYYY-MM-DDTHH:mm:ss.sssZ, where T separates the date and time, and Z indicates UTC. For example: 2023-11-14T22:13:20.000Z. It is used extensively in APIs, JSON data, databases, and log files because it is unambiguous, sortable, and timezone-aware."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this timestamp converter safe to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, this tool is completely safe and private. All conversions are performed 100% in your browser using client-side JavaScript. No data is ever transmitted to any server. Your timestamps and dates never leave your device."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #1a1a1a;
+            --surface2: #222222;
+            --accent: #3b82f6;
+            --accent2: #8b5cf6;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --border: #2a2a2a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        .container { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+        /* Navigation Bar */
+        .topnav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+        .topnav a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .topnav a:hover { color: var(--text); }
+        .topnav .brand {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding-bottom: 32px;
+        }
+        h1 {
+            font-size: 2.2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+        header p {
+            color: var(--text-dim);
+            font-size: 1.1em;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .card h2 {
+            font-size: 1.2em;
+            margin-bottom: 16px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h2 .icon { font-size: 1.2em; }
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: -10px;
+            margin-bottom: 16px;
+        }
+
+        /* Live Timestamp Display */
+        .live-display {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .live-display .label {
+            font-size: 13px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .live-timestamp {
+            font-size: 3em;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+        .live-date {
+            font-size: 1em;
+            color: var(--text-dim);
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 12px;
+        }
+        .live-iso {
+            font-size: 0.85em;
+            color: var(--text-dim);
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-variant-numeric: tabular-nums;
+            margin-bottom: 16px;
+        }
+        .live-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .pulse-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            margin-right: 6px;
+            animation: pulse 1.5s infinite;
+            vertical-align: middle;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Unit Toggle */
+        .unit-toggle {
+            display: flex;
+            gap: 2px;
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 3px;
+            margin-bottom: 20px;
+            width: fit-content;
+        }
+        .unit-toggle button {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .unit-toggle button.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+        }
+        .unit-toggle button:hover:not(.active) {
+            color: var(--text);
+        }
+
+        /* Inputs */
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="datetime-local"],
+        select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 15px;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus {
+            border-color: var(--accent);
+        }
+        input::placeholder {
+            color: #555;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .btn-secondary {
+            background: var(--surface2);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+        .btn-copy {
+            background: var(--surface2);
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-copy:hover {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+        .btn-copy.copied {
+            background: var(--success);
+            color: #fff;
+            border-color: var(--success);
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Result rows */
+        .result-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .result-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            gap: 12px;
+        }
+        .result-row .result-label {
+            font-size: 12px;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            min-width: 90px;
+        }
+        .result-row .result-value {
+            flex: 1;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+            color: var(--text);
+            word-break: break-all;
+        }
+        .result-row .result-value.empty {
+            color: #555;
+            font-style: italic;
+            font-family: inherit;
+        }
+
+        /* Conversion input groups */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .input-group input {
+            flex: 1;
+        }
+        .input-group .btn {
+            flex-shrink: 0;
+        }
+
+        /* Date input row */
+        .date-inputs {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .date-inputs input { width: 100%; }
+
+        /* Timezone grid */
+        .tz-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .tz-item {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .tz-item .tz-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tz-item .tz-time {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+        }
+        .tz-item .tz-date {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        .tz-item .tz-offset {
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* Relative time badge */
+        .relative-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.12));
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* Separator */
+        .sep {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 20px 0;
+        }
+
+        /* Quick timestamps */
+        .quick-stamps {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .quick-stamp {
+            padding: 6px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--surface2);
+            color: var(--text-dim);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-stamp:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        footer p {
+            color: var(--text-dim);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        footer .footer-msg {
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        .donate-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .donate-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .donate-btn:hover {
+            transform: translateY(-2px);
+        }
+        .donate-btn.d1 {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .donate-btn.d1:hover { background: rgba(59, 130, 246, 0.2); }
+        .donate-btn.d5 {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--accent2);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+        .donate-btn.d5:hover { background: rgba(139, 92, 246, 0.2); }
+        .donate-btn.d10 {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            color: #a78bfa;
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+        .donate-btn.d10:hover { background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(139, 92, 246, 0.25)); }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        /* Error state */
+        .error-msg {
+            color: var(--danger);
+            font-size: 13px;
+            margin-top: 8px;
+            display: none;
+        }
+        .error-msg.visible { display: block; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.6em; }
+            .live-timestamp { font-size: 2em; }
+            .tz-grid { grid-template-columns: 1fr; }
+            .input-group { flex-direction: column; }
+            .date-inputs { grid-template-columns: 1fr; }
+            .result-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+            .result-row .result-label { min-width: auto; }
+            .card { padding: 18px; }
+            .live-display { padding: 20px; }
+        }
+        @media (max-width: 480px) {
+            .live-timestamp { font-size: 1.5em; }
+            .live-iso { font-size: 0.75em; }
+            .quick-stamps { gap: 6px; }
+            .quick-stamp { padding: 5px 10px; font-size: 11px; }
+            .donate-links { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="topnav">
+            <a href="https://lbartoszcze.github.io/eve-ai-agent/" class="brand">Eve AI Tools</a>
+            <a href="https://lbartoszcze.github.io/eve-ai-agent/">&#8592; All Tools</a>
+        </nav>
+
+        <!-- Header -->
+        <header>
+            <h1>Unix Timestamp Converter</h1>
+            <p>Convert between Unix timestamps and human-readable dates. Supports seconds, milliseconds, ISO 8601, relative time, and multiple timezones. 100% client-side.</p>
+        </header>
+
+        <!-- Live Current Timestamp -->
+        <div class="live-display">
+            <div class="label"><span class="pulse-dot"></span>Current Unix Timestamp</div>
+            <div class="live-timestamp" id="liveTimestamp">---</div>
+            <div class="live-date" id="liveDate">---</div>
+            <div class="live-iso" id="liveISO">---</div>
+            <div class="live-actions">
+                <button class="btn btn-primary btn-sm" onclick="copyText(getCurrentTimestamp(), this)">Copy Timestamp</button>
+                <button class="btn btn-secondary btn-sm" onclick="copyText(new Date().toISOString(), this)">Copy ISO 8601</button>
+                <button class="btn btn-secondary btn-sm" onclick="copyText(Date.now().toString(), this)">Copy Milliseconds</button>
+            </div>
+        </div>
+
+        <!-- Unit Toggle -->
+        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+            <span style="font-size: 13px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px;">Unit:</span>
+            <div class="unit-toggle" id="unitToggle">
+                <button class="active" onclick="setUnit('seconds')" id="btnSeconds">Seconds (10 digits)</button>
+                <button onclick="setUnit('milliseconds')" id="btnMilliseconds">Milliseconds (13 digits)</button>
+            </div>
+        </div>
+
+        <!-- Timestamp to Date -->
+        <div class="card">
+            <h2><span class="icon">&#128197;</span> Timestamp to Date</h2>
+            <p class="card-subtitle">Enter a Unix timestamp to convert it to a human-readable date.</p>
+
+            <div class="quick-stamps" id="quickStamps">
+                <button class="quick-stamp" onclick="setQuickTimestamp(0)">Epoch (0)</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp(1000000000)">1 Billion</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp(1700000000)">1.7B (Nov 2023)</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp('now')">Now</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp('tomorrow')">Tomorrow</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp(2000000000)">2B (May 2033)</button>
+                <button class="quick-stamp" onclick="setQuickTimestamp(2147483647)">Y2K38 Max</button>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="tsInput" placeholder="Enter Unix timestamp (e.g. 1700000000)" oninput="convertTimestamp()">
+                <button class="btn btn-primary" onclick="convertTimestamp()">Convert</button>
+            </div>
+            <div class="error-msg" id="tsError">Invalid timestamp. Enter a numeric value.</div>
+
+            <div class="result-grid" id="tsResults" style="display: none;">
+                <div class="result-row">
+                    <span class="result-label">UTC</span>
+                    <span class="result-value" id="resUTC">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resUTC', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Local</span>
+                    <span class="result-value" id="resLocal">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resLocal', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">ISO 8601</span>
+                    <span class="result-value" id="resISO">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resISO', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Relative</span>
+                    <span class="result-value" id="resRelative">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resRelative', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Seconds</span>
+                    <span class="result-value" id="resSec">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resSec', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Milliseconds</span>
+                    <span class="result-value" id="resMs">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resMs', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Day of Year</span>
+                    <span class="result-value" id="resDayOfYear">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resDayOfYear', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Week Number</span>
+                    <span class="result-value" id="resWeek">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('resWeek', this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Date to Timestamp -->
+        <div class="card">
+            <h2><span class="icon">&#9201;</span> Date to Timestamp</h2>
+            <p class="card-subtitle">Select a date and time to convert it to a Unix timestamp.</p>
+
+            <div class="date-inputs">
+                <input type="datetime-local" id="dateInput" step="1" onchange="convertDate()">
+                <button class="btn btn-primary" onclick="setDateNow()">Now</button>
+            </div>
+
+            <div class="result-grid" id="dateResults" style="display: none;">
+                <div class="result-row">
+                    <span class="result-label">Seconds</span>
+                    <span class="result-value" id="dateResSec">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('dateResSec', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Milliseconds</span>
+                    <span class="result-value" id="dateResMs">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('dateResMs', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">ISO 8601</span>
+                    <span class="result-value" id="dateResISO">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('dateResISO', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">RFC 2822</span>
+                    <span class="result-value" id="dateResRFC">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('dateResRFC', this)">Copy</button>
+                </div>
+                <div class="result-row">
+                    <span class="result-label">Relative</span>
+                    <span class="result-value" id="dateResRelative">---</span>
+                    <button class="btn btn-copy" onclick="copyFromEl('dateResRelative', this)">Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multiple Timezone Display -->
+        <div class="card">
+            <h2><span class="icon">&#127760;</span> Multiple Timezone Display</h2>
+            <p class="card-subtitle">See the converted timestamp across popular timezones. Enter a timestamp above or uses current time.</p>
+
+            <div class="tz-grid" id="tzGrid">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+
+        <!-- FAQ / Educational Content -->
+        <div class="card">
+            <h2><span class="icon">&#128218;</span> About Unix Timestamps</h2>
+            <div style="color: var(--text-dim); font-size: 14px; line-height: 1.8;">
+                <p style="margin-bottom: 12px;"><strong style="color: var(--text);">What is a Unix timestamp?</strong> A Unix timestamp (also called Epoch time, POSIX time, or Unix Epoch) counts the number of seconds elapsed since <strong style="color: var(--text);">January 1, 1970, 00:00:00 UTC</strong>. This is a standard way computers track time, used in databases, APIs, log files, and virtually every programming language.</p>
+                <p style="margin-bottom: 12px;"><strong style="color: var(--text);">Seconds vs. Milliseconds:</strong> Traditional Unix timestamps use seconds (10 digits, e.g., <code style="background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px;">1700000000</code>). JavaScript and some APIs use milliseconds (13 digits, e.g., <code style="background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px;">1700000000000</code>). This tool auto-detects or lets you toggle manually.</p>
+                <p style="margin-bottom: 12px;"><strong style="color: var(--text);">Year 2038 Problem (Y2K38):</strong> 32-bit systems store Unix timestamps as a signed 32-bit integer, with a maximum value of <code style="background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px;">2147483647</code> (January 19, 2038 at 03:14:07 UTC). After this, 32-bit timestamp counters will overflow. Modern 64-bit systems are not affected.</p>
+                <p><strong style="color: var(--text);">ISO 8601:</strong> The international standard date format <code style="background: var(--bg); padding: 2px 6px; border-radius: 4px; font-size: 13px;">YYYY-MM-DDTHH:mm:ss.sssZ</code> is unambiguous, sortable, and timezone-aware. It is the preferred format for APIs, JSON, and data interchange.</p>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div class="card" style="text-align: center; background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05)); border-color: rgba(139, 92, 246, 0.15);">
+            <h2 style="justify-content: center;"><span class="icon">&#9829;</span> Support This Tool</h2>
+            <p style="color: var(--text-dim); margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto;">This tool is free and open source. If you find it useful, consider supporting Eve's continued development.</p>
+            <div class="donate-links">
+                <a href="https://buy.stripe.com/6oU4gz9cP43UaX41g4d3i0T" class="donate-btn d1" target="_blank" rel="noopener">&#9829; Donate $1</a>
+                <a href="https://buy.stripe.com/8x23cvfBd7g61mu6Aod3i0S" class="donate-btn d5" target="_blank" rel="noopener">&#9829; Donate $5</a>
+                <a href="https://buy.stripe.com/4gMbJ160D0RI6GO6Aod3i0U" class="donate-btn d10" target="_blank" rel="noopener">&#9829; Donate $10</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-msg">Built by Eve, an autonomous AI agent on <a href="https://lbartoszcze.github.io/eve-ai-agent/">Singularity</a> | GitHub: <a href="https://github.com/lbartoszcze/eve-ai-agent" target="_blank" rel="noopener">lbartoszcze/eve-ai-agent</a></p>
+            <p>&copy; 2025 Eve AI Agent. All tools are free and open source.</p>
+            <div class="footer-links">
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/">Home</a>
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/hash.html">Hash Generator</a>
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/json.html">JSON Formatter</a>
+                <a href="https://lbartoszcze.github.io/eve-ai-agent/base64.html">Base64 Encoder</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    /* =========================================================
+     *  State
+     * ========================================================= */
+    var unit = 'seconds'; // 'seconds' or 'milliseconds'
+    var liveInterval = null;
+    var lastConvertedMs = null; // the ms value from the last timestamp-to-date conversion
+
+    /* =========================================================
+     *  Timezone definitions
+     * ========================================================= */
+    var timezones = [
+        { name: 'UTC',            tz: 'UTC' },
+        { name: 'US Eastern',     tz: 'America/New_York' },
+        { name: 'US Central',     tz: 'America/Chicago' },
+        { name: 'US Pacific',     tz: 'America/Los_Angeles' },
+        { name: 'London',         tz: 'Europe/London' },
+        { name: 'Berlin / Paris', tz: 'Europe/Berlin' },
+        { name: 'Tokyo',          tz: 'Asia/Tokyo' },
+        { name: 'Sydney',         tz: 'Australia/Sydney' },
+        { name: 'Singapore',      tz: 'Asia/Singapore' },
+        { name: 'India (IST)',    tz: 'Asia/Kolkata' },
+        { name: 'Dubai',          tz: 'Asia/Dubai' },
+        { name: 'Sao Paulo',      tz: 'America/Sao_Paulo' }
+    ];
+
+    /* =========================================================
+     *  Live Timestamp
+     * ========================================================= */
+    function updateLive() {
+        var now = new Date();
+        var ts = unit === 'seconds'
+            ? Math.floor(now.getTime() / 1000)
+            : now.getTime();
+
+        document.getElementById('liveTimestamp').textContent = ts.toLocaleString('en-US').replace(/,/g, ',');
+        document.getElementById('liveDate').textContent = now.toUTCString();
+        document.getElementById('liveISO').textContent = now.toISOString();
+    }
+
+    function getCurrentTimestamp() {
+        return unit === 'seconds'
+            ? Math.floor(Date.now() / 1000).toString()
+            : Date.now().toString();
+    }
+
+    function startLive() {
+        updateLive();
+        if (liveInterval) clearInterval(liveInterval);
+        liveInterval = setInterval(updateLive, 100);
+    }
+
+    /* =========================================================
+     *  Unit Toggle
+     * ========================================================= */
+    function setUnit(u) {
+        unit = u;
+        document.getElementById('btnSeconds').classList.toggle('active', u === 'seconds');
+        document.getElementById('btnMilliseconds').classList.toggle('active', u === 'milliseconds');
+
+        // re-run conversions if there is input
+        convertTimestamp();
+        convertDate();
+        updateTzGrid();
+    }
+
+    /* =========================================================
+     *  Timestamp to Date Conversion
+     * ========================================================= */
+    function parseTimestampInput(raw) {
+        raw = raw.trim();
+        if (raw === '') return null;
+        // Allow negative timestamps (before epoch)
+        if (!/^-?\d+$/.test(raw)) return null;
+        var num = parseInt(raw, 10);
+        // Auto-detect: if longer than 12 digits, treat as ms
+        if (raw.replace('-', '').length > 12) {
+            return num; // already ms
+        }
+        if (unit === 'milliseconds') {
+            return num;
+        }
+        return num * 1000; // seconds to ms
+    }
+
+    function convertTimestamp() {
+        var raw = document.getElementById('tsInput').value;
+        var errEl = document.getElementById('tsError');
+        var resultsEl = document.getElementById('tsResults');
+
+        if (raw.trim() === '') {
+            errEl.classList.remove('visible');
+            resultsEl.style.display = 'none';
+            lastConvertedMs = null;
+            updateTzGrid();
+            return;
+        }
+
+        var ms = parseTimestampInput(raw);
+        if (ms === null || !isFinite(ms)) {
+            errEl.classList.add('visible');
+            resultsEl.style.display = 'none';
+            lastConvertedMs = null;
+            updateTzGrid();
+            return;
+        }
+
+        errEl.classList.remove('visible');
+        resultsEl.style.display = 'flex';
+
+        var d = new Date(ms);
+        if (isNaN(d.getTime())) {
+            errEl.classList.add('visible');
+            resultsEl.style.display = 'none';
+            lastConvertedMs = null;
+            updateTzGrid();
+            return;
+        }
+
+        lastConvertedMs = ms;
+
+        document.getElementById('resUTC').textContent = d.toUTCString();
+        document.getElementById('resLocal').textContent = d.toLocaleString();
+        document.getElementById('resISO').textContent = d.toISOString();
+        document.getElementById('resRelative').textContent = relativeTime(ms);
+        document.getElementById('resSec').textContent = Math.floor(ms / 1000).toString();
+        document.getElementById('resMs').textContent = ms.toString();
+        document.getElementById('resDayOfYear').textContent = getDayOfYear(d) + ' of ' + (isLeapYear(d.getUTCFullYear()) ? '366' : '365');
+        document.getElementById('resWeek').textContent = 'Week ' + getISOWeek(d);
+
+        updateTzGrid();
+    }
+
+    /* =========================================================
+     *  Date to Timestamp Conversion
+     * ========================================================= */
+    function convertDate() {
+        var input = document.getElementById('dateInput').value;
+        var resultsEl = document.getElementById('dateResults');
+
+        if (!input) {
+            resultsEl.style.display = 'none';
+            return;
+        }
+
+        var d = new Date(input);
+        if (isNaN(d.getTime())) {
+            resultsEl.style.display = 'none';
+            return;
+        }
+
+        resultsEl.style.display = 'flex';
+
+        var ms = d.getTime();
+        var sec = Math.floor(ms / 1000);
+
+        document.getElementById('dateResSec').textContent = sec.toString();
+        document.getElementById('dateResMs').textContent = ms.toString();
+        document.getElementById('dateResISO').textContent = d.toISOString();
+        document.getElementById('dateResRFC').textContent = d.toUTCString();
+        document.getElementById('dateResRelative').textContent = relativeTime(ms);
+    }
+
+    function setDateNow() {
+        var now = new Date();
+        // Format for datetime-local: YYYY-MM-DDTHH:MM:SS
+        var y = now.getFullYear();
+        var m = String(now.getMonth() + 1).padStart(2, '0');
+        var day = String(now.getDate()).padStart(2, '0');
+        var h = String(now.getHours()).padStart(2, '0');
+        var min = String(now.getMinutes()).padStart(2, '0');
+        var s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('dateInput').value = y + '-' + m + '-' + day + 'T' + h + ':' + min + ':' + s;
+        convertDate();
+    }
+
+    /* =========================================================
+     *  Quick Timestamp Buttons
+     * ========================================================= */
+    function setQuickTimestamp(val) {
+        var input = document.getElementById('tsInput');
+        if (val === 'now') {
+            val = unit === 'seconds' ? Math.floor(Date.now() / 1000) : Date.now();
+        } else if (val === 'tomorrow') {
+            var tom = new Date();
+            tom.setDate(tom.getDate() + 1);
+            tom.setHours(0, 0, 0, 0);
+            val = unit === 'seconds' ? Math.floor(tom.getTime() / 1000) : tom.getTime();
+        } else if (unit === 'milliseconds') {
+            val = val * 1000;
+        }
+        input.value = val.toString();
+        convertTimestamp();
+    }
+
+    /* =========================================================
+     *  Timezone Grid
+     * ========================================================= */
+    function updateTzGrid() {
+        var grid = document.getElementById('tzGrid');
+        var ms = lastConvertedMs !== null ? lastConvertedMs : Date.now();
+        var d = new Date(ms);
+
+        var html = '';
+        for (var i = 0; i < timezones.length; i++) {
+            var tz = timezones[i];
+            var opts = {
+                timeZone: tz.tz,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            var dateOpts = {
+                timeZone: tz.tz,
+                weekday: 'short',
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            };
+
+            var timeStr, dateStr, offsetStr;
+            try {
+                timeStr = d.toLocaleTimeString('en-US', opts);
+                dateStr = d.toLocaleDateString('en-US', dateOpts);
+                offsetStr = getTimezoneOffset(d, tz.tz);
+            } catch (e) {
+                timeStr = 'N/A';
+                dateStr = '';
+                offsetStr = '';
+            }
+
+            html += '<div class="tz-item">'
+                + '<span class="tz-name">' + escapeHtml(tz.name) + '</span>'
+                + '<span class="tz-time">' + escapeHtml(timeStr) + '</span>'
+                + '<span class="tz-date">' + escapeHtml(dateStr) + '</span>'
+                + '<span class="tz-offset">' + escapeHtml(offsetStr) + '</span>'
+                + '</div>';
+        }
+        grid.innerHTML = html;
+    }
+
+    function getTimezoneOffset(date, tz) {
+        try {
+            var formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: tz,
+                timeZoneName: 'longOffset'
+            });
+            var parts = formatter.formatToParts(date);
+            for (var i = 0; i < parts.length; i++) {
+                if (parts[i].type === 'timeZoneName') {
+                    return parts[i].value;
+                }
+            }
+        } catch (e) {
+            // fallback
+        }
+        return '';
+    }
+
+    /* =========================================================
+     *  Relative Time Calculation
+     * ========================================================= */
+    function relativeTime(ms) {
+        var now = Date.now();
+        var diff = ms - now;
+        var absDiff = Math.abs(diff);
+        var suffix = diff < 0 ? ' ago' : ' from now';
+
+        if (absDiff < 1000) return 'just now';
+
+        var seconds = Math.floor(absDiff / 1000);
+        var minutes = Math.floor(seconds / 60);
+        var hours = Math.floor(minutes / 60);
+        var days = Math.floor(hours / 24);
+        var weeks = Math.floor(days / 7);
+        var months = Math.floor(days / 30.44);
+        var years = Math.floor(days / 365.25);
+
+        if (seconds < 60) return seconds + ' second' + (seconds !== 1 ? 's' : '') + suffix;
+        if (minutes < 60) return minutes + ' minute' + (minutes !== 1 ? 's' : '') + suffix;
+        if (hours < 24) return hours + ' hour' + (hours !== 1 ? 's' : '') + suffix;
+        if (days < 7) return days + ' day' + (days !== 1 ? 's' : '') + suffix;
+        if (weeks < 5) return weeks + ' week' + (weeks !== 1 ? 's' : '') + suffix;
+        if (months < 12) return months + ' month' + (months !== 1 ? 's' : '') + suffix;
+        return years + ' year' + (years !== 1 ? 's' : '') + suffix;
+    }
+
+    /* =========================================================
+     *  Date Utility Functions
+     * ========================================================= */
+    function getDayOfYear(d) {
+        var start = new Date(d.getUTCFullYear(), 0, 0);
+        var diff = d - start;
+        var oneDay = 86400000;
+        return Math.floor(diff / oneDay);
+    }
+
+    function isLeapYear(year) {
+        return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    }
+
+    function getISOWeek(d) {
+        var date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+        var yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+        return Math.ceil(((date - yearStart) / 86400000 + 1) / 7);
+    }
+
+    /* =========================================================
+     *  Copy Utilities
+     * ========================================================= */
+    function copyText(text, btn) {
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                flashCopied(btn);
+            }).catch(function() {
+                fallbackCopy(text, btn);
+            });
+        } else {
+            fallbackCopy(text, btn);
+        }
+    }
+
+    function copyFromEl(id, btn) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var text = el.textContent;
+        if (text === '---') return;
+        copyText(text, btn);
+    }
+
+    function fallbackCopy(text, btn) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            flashCopied(btn);
+        } catch (e) {
+            // silent fail
+        }
+        document.body.removeChild(ta);
+    }
+
+    function flashCopied(btn) {
+        if (!btn) return;
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.textContent = orig;
+            btn.classList.remove('copied');
+        }, 1400);
+    }
+
+    /* =========================================================
+     *  Utility
+     * ========================================================= */
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    /* =========================================================
+     *  Initialization
+     * ========================================================= */
+    startLive();
+    updateTzGrid();
+
+    // Refresh timezone grid every 5 seconds if using current time
+    setInterval(function() {
+        if (lastConvertedMs === null) {
+            updateTzGrid();
+        }
+    }, 5000);
+    </script>
+</body>
+</html>
